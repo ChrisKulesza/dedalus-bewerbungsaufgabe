@@ -1,6 +1,6 @@
 package org.currency_denomination.feature.domain;
 
-public enum CurrencyDenominationValue {
+public enum EuroDenominationValue {
     TwoHundredEuros(200),
     OneHundredEuros(100),
     FiftyEuros(50),
@@ -18,7 +18,7 @@ public enum CurrencyDenominationValue {
 
     private final double value;
 
-    CurrencyDenominationValue(double value) {
+    EuroDenominationValue(double value) {
         this.value = value;
     }
 

@@ -1,23 +1,50 @@
 package org.currency_denomination.feature.domain;
 
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.TreeMap;
 
-@Service
-public class CurrencyService {
-    /**
-     * @param value the Euro value to calculate denominations for
-     * @return a TreeMap containing the currency denominations as keys and the count of each denomination as values
-     */
-    public TreeMap<Double, Integer> calculateDenominationFor(double value) {
+public class CurrencyDenomination {
+    double value;
+    double valueNew;
+    TreeMap<Double, Integer> denominationsForValue;
+    TreeMap<Double, Integer> denominationsForNewValue;
+
+    public CurrencyDenomination(double value) {
+        this.value = value;
+        this.denominationsForValue = calculateDenominationFor(value);
+        this.denominationsForNewValue = new TreeMap<>();
+    }
+
+    public CurrencyDenomination(double value, double valueNew) {
+        this.value = value;
+        this.valueNew = valueNew;
+        this.denominationsForValue = calculateDenominationFor(value);
+        this.denominationsForNewValue = calculateDenominationFor(valueNew);
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public double getValueNew() {
+        return valueNew;
+    }
+    
+    public TreeMap<Double, Integer> getDenominationsForValue() {
+        return denominationsForValue;
+    }
+
+    public TreeMap<Double, Integer> getDenominationsForNewValue() {
+        return denominationsForNewValue;
+    }
+
+    private TreeMap<Double, Integer> calculateDenominationFor(double value) {
         var currentValueInCent = EuroToCent(value);
 
         var results = new TreeMap<Double, Integer>(Collections.reverseOrder());
 
-        for (var currencyValue : CurrencyDenominationValue.values()) {
+        for (var currencyValue : EuroDenominationValue.values()) {
             var valueToCheckAgainst = EuroToCent(currencyValue.getValue());
 
             if (currentValueInCent >= valueToCheckAgainst) {
