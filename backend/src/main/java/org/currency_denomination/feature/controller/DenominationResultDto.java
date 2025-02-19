@@ -1,28 +1,28 @@
 package org.currency_denomination.feature.controller;
 
-import org.currency_denomination.feature.domain.CurrencyDenomination;
+import org.currency_denomination.feature.domain.DenominationResult;
 
 import java.util.Collections;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public class CurrencyDenominationDto {
+public class DenominationResultDto {
     private final double value;
     private final double valueNew;
     private final TreeMap<Double, String> denominations;
 
-    private CurrencyDenominationDto(
+    private DenominationResultDto(
             double value,
             TreeMap<Double, Integer> denominationsForValue,
             double valueNew,
-            TreeMap<Double, Integer> denominationsForNewValue
+            TreeMap<Double, Integer> denominationsForValueNew
     ) {
         this.value = value;
         this.valueNew = valueNew;
-        this.denominations = calculateDifferenceBetweenNewAndOldValue(denominationsForValue, denominationsForNewValue);
+        this.denominations = calculateDifferenceBetweenNewAndOldValue(denominationsForValue, denominationsForValueNew);
     }
 
-    private CurrencyDenominationDto(
+    private DenominationResultDto(
             double value,
             TreeMap<Double, Integer> denominationsForValue
     ) {
@@ -37,26 +37,26 @@ public class CurrencyDenominationDto {
         return reversedMap;
     }
 
-    public static CurrencyDenominationDto fromCurrencyDenomination(CurrencyDenomination result) {
-        if (result.getValueNew() == 0 && result.getDenominationsForNewValue().isEmpty()) {
-            return new CurrencyDenominationDto(result.getValue(), result.getDenominationsForValue());
+    public static DenominationResultDto fromDenominationResult(DenominationResult result) {
+        if (result.getValueNew() == 0 && result.getDenominationsForValueNew().isEmpty()) {
+            return new DenominationResultDto(result.getValue(), result.getDenominationsForValue());
         }
 
-        return new CurrencyDenominationDto(
+        return new DenominationResultDto(
                 result.getValue(),
                 result.getDenominationsForValue(),
                 result.getValueNew(),
-                result.getDenominationsForNewValue()
+                result.getDenominationsForValueNew()
         );
     }
 
     private static TreeMap<Double, String> calculateDifferenceBetweenNewAndOldValue(
             TreeMap<Double, Integer> denominationsForValue,
-            TreeMap<Double, Integer> denominationsForNewValue
+            TreeMap<Double, Integer> denominationsForValueNew
     ) {
         var map = new TreeMap<Double, String>(Collections.reverseOrder());
         denominationsForValue.forEach((key, value) -> {
-            var valueNew = denominationsForNewValue.get(key);
+            var valueNew = denominationsForValueNew.get(key);
 
             if (!Objects.equals(valueNew, value) || valueNew > 0 && value > 0) {
                 map.put(key, calculateDifference(valueNew - value));

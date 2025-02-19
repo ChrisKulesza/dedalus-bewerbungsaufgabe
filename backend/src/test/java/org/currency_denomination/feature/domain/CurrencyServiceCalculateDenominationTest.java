@@ -19,7 +19,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double firstDenomination,
             int expectedFirstCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
 
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(1, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
@@ -42,7 +42,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double secondDenomination,
             int expectedSecondCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
 
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(2, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
@@ -71,7 +71,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double thirdPart,
             int expectedThirdCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
         
         Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart));
         Assertions.assertAll("Result map contains all expected denomination keys and values",
@@ -107,7 +107,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double fourthPart,
             int expectedFourthCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
         
         Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart));
         Assertions.assertAll("Result map contains all expected denomination keys and values",
@@ -145,7 +145,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double secondPart,
             int expectedSecondCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
 
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(2, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
@@ -175,7 +175,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double thirdPart,
             int expectedThirdCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
 
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(3, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
@@ -211,7 +211,7 @@ public class CurrencyServiceCalculateDenominationTest {
             double fifthPart,
             int expectedFifthCount
     ) {
-        var result = new CurrencyDenomination(value);
+        var result = new DenominationResult(value, Calculator::forEuro);
 
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(5, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
