@@ -11,7 +11,7 @@ public class DenominationResultDto {
     private final double value;
     private final double valueNew;
     private final TreeMap<Double, String> denominations;
-    private final CalculationType calculationType;
+    private final String calculationType;
 
     private DenominationResultDto(
             double value,
@@ -23,7 +23,7 @@ public class DenominationResultDto {
         this.value = value;
         this.valueNew = valueNew;
         this.denominations = calculateDifferenceBetweenNewAndOldValue(denominationsForValue, denominationsForValueNew);
-        this.calculationType = calculationType;
+        this.calculationType = calculationType.getValue();
     }
 
     private DenominationResultDto(
@@ -34,7 +34,7 @@ public class DenominationResultDto {
         this.value = value;
         this.valueNew = 0;
         this.denominations = convertToStringValueMap(denominationsForValue);
-        this.calculationType = calculationType;
+        this.calculationType = calculationType.getValue();
     }
 
     private static TreeMap<Double, String> convertToStringValueMap(TreeMap<Double, Integer> map) {
@@ -93,7 +93,7 @@ public class DenominationResultDto {
         return denominations;
     }
 
-    public CalculationType getCalculationType() {
+    public String getCalculationType() {
         return calculationType;
     }
 }
