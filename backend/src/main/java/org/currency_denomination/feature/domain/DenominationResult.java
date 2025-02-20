@@ -8,12 +8,14 @@ public class DenominationResult {
     double valueNew;
     TreeMap<Double, Integer> denominationsForValue;
     TreeMap<Double, Integer> denominationsForValueNew;
+    private final CalculationType calculationType;
 
     public DenominationResult(double value, Function<Double, TreeMap<Double, Integer>> calculator) {
         this.value = value;
         this.valueNew = 0;
         this.denominationsForValue = calculator.apply(value);
         this.denominationsForValueNew = new TreeMap<>();
+        calculationType = CalculationType.DENOMINATION;
     }
 
     public DenominationResult(double value, double valueNew, Function<Double, TreeMap<Double, Integer>> calculator) {
@@ -21,6 +23,7 @@ public class DenominationResult {
         this.valueNew = valueNew;
         this.denominationsForValue = calculator.apply(value);
         this.denominationsForValueNew = calculator.apply(valueNew);
+        calculationType = CalculationType.DIFFERENCE;
     }
 
     public double getValue() {
@@ -37,5 +40,9 @@ public class DenominationResult {
 
     public TreeMap<Double, Integer> getDenominationsForValueNew() {
         return denominationsForValueNew;
+    }
+
+    public CalculationType getCalculationType() {
+        return calculationType;
     }
 }

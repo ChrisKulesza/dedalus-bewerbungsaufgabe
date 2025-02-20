@@ -25,7 +25,7 @@ public class Calculator {
         return new TreeMap<>(results);
     }
 
-    public static int euroToCent(double value) {
+    private static int euroToCent(double value) {
         var centPerEuro = "100";
         var factor = new BigDecimal(centPerEuro);
         return Math.round(factor.multiply(new BigDecimal(value)).floatValue());

@@ -1,5 +1,6 @@
 package org.currency_denomination.feature.controller;
 
+import org.currency_denomination.feature.domain.CalculationType;
 import org.currency_denomination.feature.domain.DenominationResult;
 
 import java.util.Collections;
@@ -10,25 +11,30 @@ public class DenominationResultDto {
     private final double value;
     private final double valueNew;
     private final TreeMap<Double, String> denominations;
+    private final CalculationType calculationType;
 
     private DenominationResultDto(
             double value,
             TreeMap<Double, Integer> denominationsForValue,
             double valueNew,
-            TreeMap<Double, Integer> denominationsForValueNew
+            TreeMap<Double, Integer> denominationsForValueNew,
+            CalculationType calculationType
     ) {
         this.value = value;
         this.valueNew = valueNew;
         this.denominations = calculateDifferenceBetweenNewAndOldValue(denominationsForValue, denominationsForValueNew);
+        this.calculationType = calculationType;
     }
 
     private DenominationResultDto(
             double value,
-            TreeMap<Double, Integer> denominationsForValue
+            TreeMap<Double, Integer> denominationsForValue,
+            CalculationType calculationType
     ) {
         this.value = value;
         this.valueNew = 0;
         this.denominations = convertToStringValueMap(denominationsForValue);
+        this.calculationType = calculationType;
     }
 
     private static TreeMap<Double, String> convertToStringValueMap(TreeMap<Double, Integer> map) {
@@ -39,14 +45,19 @@ public class DenominationResultDto {
 
     public static DenominationResultDto fromDenominationResult(DenominationResult result) {
         if (result.getValueNew() == 0 && result.getDenominationsForValueNew().isEmpty()) {
-            return new DenominationResultDto(result.getValue(), result.getDenominationsForValue());
+            return new DenominationResultDto(
+                    result.getValue(),
+                    result.getDenominationsForValue(),
+                    result.getCalculationType()
+            );
         }
 
         return new DenominationResultDto(
                 result.getValue(),
                 result.getDenominationsForValue(),
                 result.getValueNew(),
-                result.getDenominationsForValueNew()
+                result.getDenominationsForValueNew(),
+                result.getCalculationType()
         );
     }
 
@@ -80,5 +91,9 @@ public class DenominationResultDto {
 
     public TreeMap<Double, String> getDenominations() {
         return denominations;
+    }
+
+    public CalculationType getCalculationType() {
+        return calculationType;
     }
 }
