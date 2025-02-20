@@ -24,6 +24,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(1, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstDenomination)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstDenomination))
@@ -47,6 +49,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(2, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+                
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstDenomination)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstDenomination)),
@@ -77,6 +81,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(3, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+                
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstPart)),
@@ -113,6 +119,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(4, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+                
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstPart)),
@@ -150,6 +158,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(2, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+                
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstPart)),
@@ -180,6 +190,8 @@ public class DenominationResultTest {
         Assertions.assertAll("Result map contains all expected denomination keys and values",
                 () -> Assertions.assertEquals(3, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
 
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+                
                 // First denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart)),
                 () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstPart)),
