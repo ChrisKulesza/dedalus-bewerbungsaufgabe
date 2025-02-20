@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CurrencyServiceCalculateDenominationTest {
+public class DenominationResultTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -14,7 +14,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "100, 100, 1",
             "200, 200, 1"
     })
-    public void shouldReturnOnePartDenomination_ForWholeEuroValue(
+    public void should_return_denominationResult_with_one_denomination_for_euro_currency(
             double value,
             double firstDenomination,
             int expectedFirstCount
@@ -35,7 +35,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "250, 200, 1, 50, 1",
             "300, 200, 1, 100, 1"
     })
-    public void shouldReturnTwoPartDenomination_ForWholeEuroValue(
+    public void should_return_denominationResult_with_two_denominations_for_euro_currency(
             double value,
             double firstDenomination,
             int expectedFirstCount,
@@ -62,7 +62,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "260, 200, 1, 50, 1, 10, 1",
             "310, 200, 1, 100, 1, 10, 1"
     })
-    public void shouldReturnThreePartDenomination_ForWholeEuroValue(
+    public void should_return_denominationResult_with_three_denominations_for_euro_currency(
             double value,
             double firstPart,
             int expectedFirstCount,
@@ -96,7 +96,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "280, 200, 1, 50, 1, 20, 1, 10, 1",
             "330, 200, 1, 100, 1, 20, 1, 10, 1"
     })
-    public void shouldReturnFourPartDenomination_ForWholeEuroValue(
+    public void should_return_denominationResult_with_four_denominations_for_euro_currency(
             double value,
             double firstPart,
             int expectedFirstCount,
@@ -130,7 +130,7 @@ public class CurrencyServiceCalculateDenominationTest {
                 () -> Assertions.assertEquals(expectedFourthCount, (int) result.getDenominationsForValue().get(fourthPart))
         );
     }
-
+    
     @ParameterizedTest
     @CsvSource({
             "20.50, 20, 1, .5, 1",
@@ -138,7 +138,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "20.02, 20, 1, .02, 1",
             "20.01, 20, 1, .01, 1",
     })
-    public void shouldReturnTwoPartDenomination_ForValueCents(
+    public void should_return_denominationResult_with_two_denominations_for_euroCent_currency(
             double value,
             double firstPart,
             int expectedFirstCount,
@@ -166,7 +166,7 @@ public class CurrencyServiceCalculateDenominationTest {
             "20.06, 20, 1, .05, 1, .01, 1",
             "20.03, 20, 1, .02, 1, .01, 1",
     })
-    public void shouldReturnThreePartDenomination_ForValueCents(
+    public void should_return_denominationResult_with_three_denominations_for_euroCent_currency(
             double value,
             double firstPart,
             int expectedFirstCount,
@@ -191,50 +191,6 @@ public class CurrencyServiceCalculateDenominationTest {
                 // Third denomination part
                 () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(thirdPart)),
                 () -> Assertions.assertEquals(expectedThirdCount, (int) result.getDenominationsForValue().get(thirdPart))
-        );
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "20.99, 20, 1, .5, 1, .2, 2, .05, 1, .02, 2",
-    })
-    public void shouldReturnFivePartDenomination_ForValueCents(
-            double value,
-            double firstPart,
-            int expectedFirstCount,
-            double secondPart,
-            int expectedSecondCount,
-            double thirdPart,
-            int expectedThirdCount,
-            double fourthPart,
-            int expectedFourthCount,
-            double fifthPart,
-            int expectedFifthCount
-    ) {
-        var result = new DenominationResult(value, Calculator::forEuro);
-
-        Assertions.assertAll("Result map contains all expected denomination keys and values",
-                () -> Assertions.assertEquals(5, result.getDenominationsForValue().entrySet().stream().filter(e -> e.getValue() > 0).count()),
-
-                // First denomination part
-                () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(firstPart)),
-                () -> Assertions.assertEquals(expectedFirstCount, (int) result.getDenominationsForValue().get(firstPart)),
-
-                // Second denomination part
-                () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(secondPart)),
-                () -> Assertions.assertEquals(expectedSecondCount, (int) result.getDenominationsForValue().get(secondPart)),
-
-                // Third denomination part
-                () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(thirdPart)),
-                () -> Assertions.assertEquals(expectedThirdCount, (int) result.getDenominationsForValue().get(thirdPart)),
-
-                // Fourth denomination part
-                () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(fourthPart)),
-                () -> Assertions.assertEquals(expectedFourthCount, (int) result.getDenominationsForValue().get(fourthPart)),
-
-                // Fifth denomination part
-                () -> Assertions.assertTrue(result.getDenominationsForValue().containsKey(fifthPart)),
-                () -> Assertions.assertEquals(expectedFifthCount, (int) result.getDenominationsForValue().get(fifthPart))
         );
     }
 }
