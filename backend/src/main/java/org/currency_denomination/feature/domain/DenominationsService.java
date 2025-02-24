@@ -10,7 +10,7 @@ public class DenominationsService {
             double valueForDenomination,
             Optional<Double> valueForDifference
     ) {
-        return (valueForDifference.isEmpty() || valueForDifference.get() <= 0)
+        return (valueForDifference.isEmpty())
                ? new DenominationResult(valueForDenomination, Calculator::forEuro, Currency.EURO)
                : new DenominationResult(
                        valueForDenomination,
