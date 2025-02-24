@@ -1,0 +1,24 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form > div {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+}
+
+/*label {*/
+/*  padding-bottom: .35rem;*/
+/*}*/
+
+/*.form-label-input-element {*/
+/*  width: 500px;*/
+/*  min-height: 95px;*/
+/*}*/
+
+.error-message {
+  margin-top: .4rem;
+}

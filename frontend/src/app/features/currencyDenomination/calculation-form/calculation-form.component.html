@@ -1,0 +1,28 @@
+<div>
+  <form [formGroup]="form">
+    <div class="toggle-button">
+      <p-togglebutton formControlName="caclulateOnServer" onLabel="Calculate on server" offLabel="Calculate in Client" size="large" styleClass="min-w-40"></p-togglebutton>
+    </div>
+
+    <div class="form-label-input-element">
+      <label class="block font-bold required" for="valueForDenomination">
+        Value to calculate the denomination *
+      </label>
+      <p-inputnumber size="large" required formControlName="valueForDenomination" mode="currency" placeholder="0,00€" inputId="valueForDenomination" currency="EUR" locale="de-DE"></p-inputnumber>
+      <div class="error-message" *ngIf="isFormControlInValid('valueForDenomination')">
+        <p-message severity="error" variant="simple" size="small">Please enter a value. Value is mandatory.</p-message>
+      </div>
+    </div>
+
+    <div class="form-label-input-element">
+      <label class="block font-bold" for="valueForDifference">
+        Value for calculating the difference to the first value
+      </label>
+      <p-inputnumber size="large" formControlName="valueForDifference" mode="currency" placeholder="0,00€" inputId="valueForDifference" currency="EUR" locale="de-DE"></p-inputnumber>
+    </div>
+
+    <div class="toggle-and-calculate-button">
+      <p-button label="Calculate denomination" variant="outlined" (onClick)="handleClickOnCaclulate()" [disabled]="this.form.invalid" />
+    </div>
+  </form>
+</div>
