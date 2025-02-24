@@ -23,8 +23,8 @@ export class CurrencyValue {
       const valueForDifference = denominationsDifference.get(k);
 
       if (valueForDifference !== undefined && (valueForDifference !== v || (valueForDifference > 0 && v > 0))) {
-        const test = CurrencyValue.caclulateDifferenceValue(valueForDifference - v);
-        currencyValues.push(new CurrencyValue(k, test));
+        const difference = CurrencyValue.caclulateDifferenceValue(valueForDifference - v);
+        currencyValues.push(new CurrencyValue(k, difference));
       }
     });
 

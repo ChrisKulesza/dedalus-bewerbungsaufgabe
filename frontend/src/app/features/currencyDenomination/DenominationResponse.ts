@@ -1,6 +1,7 @@
 import { CurrencyValue } from './CurrencyValue';
 import { CalculationType } from './CalculationType';
 import { DenominationResult } from './clientCalculationServiceService/DenominationResult';
+import { isNotNullAndNotUndefined } from '../../typeGuards';
 
 export class DenominationResponse {
   valueForDenomination: number;
@@ -26,7 +27,7 @@ export class DenominationResponse {
   static fromDenominationResult(result: DenominationResult | null): DenominationResponse | null {
     if (!result) return null;
 
-    return !result.denominationsForDifference
+    return !isNotNullAndNotUndefined(result.valueForDifference)
       ? new DenominationResponse(
           result.valueForDenomination,
           null,

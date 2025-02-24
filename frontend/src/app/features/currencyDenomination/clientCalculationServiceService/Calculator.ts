@@ -1,11 +1,11 @@
-import { EuroDenominationValue } from './EuroDenominationValue';
+import { EuroDenominationValues } from './EuroDenominationValues';
 
 export class Calculator {
   static forEuro(value: number): Map<number, number> {
     let currentValueInCent = Calculator.euroToCent(value);
     const results = new Map<number, number>();
 
-    for (let currencyValue of EuroDenominationValue.values()) {
+    EuroDenominationValues.getValues().forEach((currencyValue) => {
       const valueToCheckAgainst = Calculator.euroToCent(currencyValue);
 
       if (currentValueInCent >= valueToCheckAgainst) {
@@ -15,7 +15,7 @@ export class Calculator {
       } else {
         results.set(currencyValue, 0);
       }
-    }
+    });
 
     return results;
   }
