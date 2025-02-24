@@ -7,10 +7,11 @@ import { Message } from 'primeng/message';
 import { NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputNumber } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-calculation-form',
-  imports: [ReactiveFormsModule, ToggleButton, Message, NgIf, ButtonModule, InputNumber],
+  imports: [ReactiveFormsModule, ToggleButton, Message, NgIf, ButtonModule, InputNumber, InputTextModule],
   templateUrl: './calculation-form.component.html',
   styleUrl: './calculation-form.component.css',
 })
@@ -33,4 +34,13 @@ export class CalculationFormComponent {
   handleClickOnCaclulate = (): void => {
     this.calculationService.setFormData(this.form.getRawValue());
   };
+
+  handleOnFocus($event: Event) {
+    ($event.target as HTMLInputElement).select();
+  }
+
+  clearFormControlForKey<Key extends keyof DenominationFormType>(key: Key) {
+    console.log('key', key);
+    this.form.controls[key].setValue(null as any);
+  }
 }

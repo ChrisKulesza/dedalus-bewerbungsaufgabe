@@ -1,7 +1,7 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 2.25rem;
 }
 
 form > div {
@@ -10,15 +10,19 @@ form > div {
   flex-direction: column;
 }
 
-/*label {*/
-/*  padding-bottom: .35rem;*/
-/*}*/
+label {
+  padding-bottom: .35rem;
+}
 
-/*.form-label-input-element {*/
-/*  width: 500px;*/
-/*  min-height: 95px;*/
-/*}*/
+.form-label-input-element {
+  height: 110px;
+}
+
+.input-element {
+  min-height: 4rem;
+}
 
 .error-message {
   margin-top: .4rem;
 }
+

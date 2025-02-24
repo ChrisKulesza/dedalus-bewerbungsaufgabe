@@ -22,7 +22,7 @@
 
 <!-- No data template-->
 <ng-template #noData>
-  <p-card [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#034087' }">
+  <p-card class="card-content-text" [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#034087' }">
     <ng-template #title>Keine Berechnungsdaten vorhanden</ng-template>
     <p>
       Bitte ergänzen Sie die erforderlichen Angaben
@@ -34,7 +34,7 @@
 
 <!-- Error -->
 <div *ngIf="error">
-  <p-card [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#860404' }">
+  <p-card class="card-content-text" [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#860404' }">
     <ng-template #title>Es ist ein Fehler aufgetreten</ng-template>
     {{ error }}
   </p-card>
