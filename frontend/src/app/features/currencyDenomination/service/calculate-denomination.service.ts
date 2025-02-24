@@ -1,8 +1,9 @@
-import { effect, Injectable, signal, untracked } from '@angular/core';
+import { effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { DenominationResponse } from '../DenominationResponse';
 import { DenominationFormType } from '../calculation-form/DenominationFormType';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
+import { ClientCalculationServiceService } from '../clientCalculationServiceService/client-calculation-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,21 +14,44 @@ export class CalculateDenominationService {
   private isLoading = signal<boolean>(false);
   private error = new Subject<string | undefined>();
 
+  private readonly httpClient = inject(HttpClient);
+  private readonly clientCalculationService = inject(ClientCalculationServiceService);
+
+  // Prevent a request from being sent during the initial effect run
   private skipCallback = true;
   private formDataChangedEffect = effect(() => {
     this.formData();
 
     untracked(() => {
-      // Prevent a request from being sent during the initial effect run
       if (!this.skipCallback && this.formData().caclulateOnServer) {
         this.isLoading.set(true);
-
         this.calculateDenominationFor(this.formData())
           .pipe(
             tap({
-              next: this.response.next,
+              next: (response) => {
+                this.response.next(response);
+              },
               error: (err) => {
                 this.error.next(err.message);
+              },
+            }),
+            catchError((err) => {
+              this.error.next(err.message);
+              return of(null);
+            }),
+            finalize(() => this.isLoading.set(false))
+          )
+          .subscribe();
+      }
+
+      if (!this.skipCallback && !this.formData().caclulateOnServer) {
+        this.isLoading.set(true);
+        this.clientCalculationService
+          .calculateDenominationsFor(this.formData())
+          .pipe(
+            tap({
+              next: (response) => {
+                this.response.next(DenominationResponse.fromDenominationResult(response));
               },
             }),
             catchError((err) => {
@@ -42,8 +66,6 @@ export class CalculateDenominationService {
       this.skipCallback = false;
     });
   });
-
-  constructor(private readonly httpClient: HttpClient) {}
 
   setFormData(formData: DenominationFormType): void {
     this.formData.set(formData);

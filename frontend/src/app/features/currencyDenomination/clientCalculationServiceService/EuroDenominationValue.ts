@@ -1,0 +1,33 @@
+enum EuroDenominationValueEnum {
+  TwoHundredEuros = 'TwoHundredEuros',
+  OneHundredEuros = 'OneHundredEuros',
+  FiftyEuros = 'FiftyEuros',
+  TwentyEuros = 'TwentyEuros',
+  TenEuros = 'TenEuros',
+  FiveEuros = 'FiveEuros',
+  TwoEuros = 'TwoEuros',
+  OneEuro = 'OneEuro',
+  FiftyCents = 'FiftyCents',
+  TwentyCents = 'TwentyCents',
+  TenCents = 'TenCents',
+  FifeCents = 'FifeCents',
+  TwoCents = 'TwoCents',
+  OneCent = 'OneCent',
+}
+
+export const EuroDenominationValue = new Map<string, number>([
+  [EuroDenominationValueEnum.TwoHundredEuros, 200],
+  [EuroDenominationValueEnum.OneHundredEuros, 100],
+  [EuroDenominationValueEnum.FiftyEuros, 50],
+  [EuroDenominationValueEnum.TwentyEuros, 20],
+  [EuroDenominationValueEnum.TenEuros, 10],
+  [EuroDenominationValueEnum.FiveEuros, 5],
+  [EuroDenominationValueEnum.TwoEuros, 2],
+  [EuroDenominationValueEnum.OneEuro, 1],
+  [EuroDenominationValueEnum.FiftyCents, 0.5],
+  [EuroDenominationValueEnum.TwentyCents, 0.2],
+  [EuroDenominationValueEnum.TenCents, 0.1],
+  [EuroDenominationValueEnum.FifeCents, 0.05],
+  [EuroDenominationValueEnum.TwoCents, 0.02],
+  [EuroDenominationValueEnum.OneCent, 0.01],
+]);

@@ -1,5 +1,6 @@
 import { CurrencyValue } from './CurrencyValue';
 import { CalculationType } from './CalculationType';
+import { DenominationResult } from './clientCalculationServiceService/DenominationResult';
 
 export class DenominationResponse {
   valueForDenomination: number;
@@ -20,5 +21,25 @@ export class DenominationResponse {
     this.denominations = denominations;
     this.calculationType = calculationType;
     this.currency = currency;
+  }
+
+  static fromDenominationResult(result: DenominationResult | null): DenominationResponse | null {
+    if (!result) return null;
+
+    return !result.denominationsForDifference
+      ? new DenominationResponse(
+          result.valueForDenomination,
+          null,
+          CurrencyValue.fromDenominations(result.denominations),
+          result.calculationType,
+          result.currency
+        )
+      : new DenominationResponse(
+          result.valueForDenomination,
+          result.valueForDifference,
+          CurrencyValue.fromDenominationsForDifference(result.denominations, result.denominationsForDifference),
+          result.calculationType,
+          result.currency
+        );
   }
 }
