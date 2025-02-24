@@ -1,99 +1,121 @@
 package org.currency_denomination.feature.controller;
 
 import org.currency_denomination.feature.domain.CalculationType;
+import org.currency_denomination.feature.domain.Currency;
 import org.currency_denomination.feature.domain.DenominationResult;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 public class DenominationResultDto {
-    private final double value;
-    private final double valueNew;
-    private final TreeMap<Double, String> denominations;
+    private final double valueForDenomination;
+    private final double valueForDifference;
+    private final List<Value> denominations;
     private final String calculationType;
+    private final String currency;
 
     private DenominationResultDto(
-            double value,
-            TreeMap<Double, Integer> denominationsForValue,
-            double valueNew,
-            TreeMap<Double, Integer> denominationsForValueNew,
-            CalculationType calculationType
+            double valueForDenomination,
+            Map<Double, Integer> denominations,
+            double valueForDifference,
+            Map<Double, Integer> denominationsDifference,
+            CalculationType calculationType,
+            Currency currency
     ) {
-        this.value = value;
-        this.valueNew = valueNew;
-        this.denominations = calculateDifferenceBetweenNewAndOldValue(denominationsForValue, denominationsForValueNew);
+        this.valueForDenomination = valueForDenomination;
+        this.valueForDifference = valueForDifference;
+        this.denominations = calculateDenominationDifferenceBetween(denominations, denominationsDifference);
         this.calculationType = calculationType.getValue();
+        this.currency = currency.getSymbol();
     }
 
     private DenominationResultDto(
-            double value,
-            TreeMap<Double, Integer> denominationsForValue,
-            CalculationType calculationType
+            double valueForDenomination,
+            Map<Double, Integer> denominationsForValue,
+            CalculationType calculationType,
+            Currency currency
     ) {
-        this.value = value;
-        this.valueNew = 0;
-        this.denominations = convertToStringValueMap(denominationsForValue);
+        this.valueForDenomination = valueForDenomination;
+        this.valueForDifference = 0;
+        this.denominations = toReversedOrderList(denominationsForValue);
         this.calculationType = calculationType.getValue();
+        this.currency = currency.getSymbol();
     }
 
-    private static TreeMap<Double, String> convertToStringValueMap(TreeMap<Double, Integer> map) {
+    private static List<Value> toReversedOrderList(Map<Double, Integer> map) {
         var reversedMap = new TreeMap<Double, String>(Collections.reverseOrder());
         map.forEach((key, v) -> reversedMap.put(key, v.toString()));
-        return reversedMap;
+        return denominationsMapToList(reversedMap);
     }
 
     public static DenominationResultDto fromDenominationResult(DenominationResult result) {
-        if (result.getValueNew() == 0 && result.getDenominationsForValueNew().isEmpty()) {
+        if (result.getValueForDifference() == 0 && result.getDenominationsDifference().isEmpty()) {
             return new DenominationResultDto(
-                    result.getValue(),
-                    result.getDenominationsForValue(),
-                    result.getCalculationType()
+                    result.getValueForDenomination(),
+                    result.getDenominations(),
+                    result.getCalculationType(),
+                    result.getCurrency()
             );
         }
 
         return new DenominationResultDto(
-                result.getValue(),
-                result.getDenominationsForValue(),
-                result.getValueNew(),
-                result.getDenominationsForValueNew(),
-                result.getCalculationType()
+                result.getValueForDenomination(),
+                result.getDenominations(),
+                result.getValueForDifference(),
+                result.getDenominationsDifference(),
+                result.getCalculationType(),
+                result.getCurrency()
         );
     }
 
-    private static TreeMap<Double, String> calculateDifferenceBetweenNewAndOldValue(
-            TreeMap<Double, Integer> denominationsForValue,
-            TreeMap<Double, Integer> denominationsForValueNew
+    private static List<Value> calculateDenominationDifferenceBetween(
+            Map<Double, Integer> denominations,
+            Map<Double, Integer> denominationsDifference
     ) {
         var map = new TreeMap<Double, String>(Collections.reverseOrder());
-        denominationsForValue.forEach((key, value) -> {
-            var valueNew = denominationsForValueNew.get(key);
+        denominations.forEach((k, v) -> {
+            var valueForDifference = denominationsDifference.get(k);
 
-            if (!Objects.equals(valueNew, value) || valueNew > 0 && value > 0) {
-                map.put(key, calculateDifference(valueNew - value));
+            if (!Objects.equals(valueForDifference, v) || valueForDifference > 0 && v > 0) {
+                map.put(k, calculateDifference(valueForDifference - v));
             }
         });
 
-        return map;
+        return denominationsMapToList(map);
+    }
+
+    private static List<Value> denominationsMapToList(TreeMap<Double, String> map) {
+        var mappedValues = new ArrayList<Value>();
+        map.forEach((k, v) -> mappedValues.add(new Value(k, v)));
+        return Collections.unmodifiableList(mappedValues);
     }
 
     private static String calculateDifference(int value) {
         return value <= 0 ? String.format("%,d", value) : String.format("+%,d", value);
     }
 
-    public double getValue() {
-        return value;
+    public double getValueForDenomination() {
+        return valueForDenomination;
     }
 
-    public double getValueNew() {
-        return valueNew;
+    public double getValueForDifference() {
+        return valueForDifference;
     }
 
-    public TreeMap<Double, String> getDenominations() {
-        return denominations;
+    /**
+     * @return An unmodifiable list of {@code Value} objects containing the denominations.
+     */
+    public List<Value> getDenominations() {
+        return Collections.unmodifiableList(denominations);
     }
-
+    
     public String getCalculationType() {
         return calculationType;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public record Value(double value, String count) {
     }
 }

@@ -1,48 +1,65 @@
 package org.currency_denomination.feature.domain;
 
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 
 public class DenominationResult {
-    double value;
-    double valueNew;
-    TreeMap<Double, Integer> denominationsForValue;
-    TreeMap<Double, Integer> denominationsForValueNew;
+    double valueForDenomination;
+    double valueForDifference;
+    Map<Double, Integer> denominations;
+    Map<Double, Integer> denominationsForDifference;
     private final CalculationType calculationType;
+    private final Currency currency;
 
-    public DenominationResult(double value, Function<Double, TreeMap<Double, Integer>> calculator) {
-        this.value = value;
-        this.valueNew = 0;
-        this.denominationsForValue = calculator.apply(value);
-        this.denominationsForValueNew = new TreeMap<>();
+    public DenominationResult(
+            double valueForDenomination,
+            Function<Double, Map<Double, Integer>> calculator,
+            Currency currency
+    ) {
+        this.valueForDenomination = valueForDenomination;
+        this.valueForDifference = 0;
+        this.denominations = calculator.apply(valueForDenomination);
+        this.denominationsForDifference = new TreeMap<>();
         calculationType = CalculationType.DENOMINATION;
+        this.currency = currency;
     }
 
-    public DenominationResult(double value, double valueNew, Function<Double, TreeMap<Double, Integer>> calculator) {
-        this.value = value;
-        this.valueNew = valueNew;
-        this.denominationsForValue = calculator.apply(value);
-        this.denominationsForValueNew = calculator.apply(valueNew);
+    public DenominationResult(
+            double valueForDenomination,
+            double valueForDifference,
+            Function<Double, Map<Double, Integer>> calculator,
+            Currency currency
+    ) {
+        this.valueForDenomination = valueForDenomination;
+        this.valueForDifference = valueForDifference;
+        this.denominations = calculator.apply(valueForDenomination);
+        this.denominationsForDifference = calculator.apply(valueForDifference);
         calculationType = CalculationType.DIFFERENCE;
+        this.currency = currency;
     }
 
-    public double getValue() {
-        return value;
+    public double getValueForDenomination() {
+        return valueForDenomination;
     }
 
-    public double getValueNew() {
-        return valueNew;
+    public double getValueForDifference() {
+        return valueForDifference;
     }
 
-    public TreeMap<Double, Integer> getDenominationsForValue() {
-        return denominationsForValue;
+    public Map<Double, Integer> getDenominations() {
+        return denominations;
     }
 
-    public TreeMap<Double, Integer> getDenominationsForValueNew() {
-        return denominationsForValueNew;
+    public Map<Double, Integer> getDenominationsDifference() {
+        return denominationsForDifference;
     }
 
     public CalculationType getCalculationType() {
         return calculationType;
+    }
+
+    public Currency getCurrency() {
+        return currency;
     }
 }

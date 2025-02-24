@@ -1,5 +1,8 @@
 package org.currency_denomination.feature.domain;
 
+/**
+ * Enum representing the different currency denominations for the Euro.
+ */
 public enum EuroDenominationValue {
     TwoHundredEuros(200),
     OneHundredEuros(100),
@@ -22,6 +25,11 @@ public enum EuroDenominationValue {
         this.value = value;
     }
 
+    /**
+     * Returns the denomination value.
+     *
+     * @return the numerical value of the Euro denomination as a {@code double}
+     */
     public double getValue() {
         return value;
     }

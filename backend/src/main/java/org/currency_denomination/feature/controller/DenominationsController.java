@@ -1,7 +1,6 @@
 package org.currency_denomination.feature.controller;
 
-import org.currency_denomination.feature.domain.Calculator;
-import org.currency_denomination.feature.domain.DenominationResult;
+import org.currency_denomination.feature.domain.DenominationsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +11,20 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/denomination")
-public class CurrencyController {
+public class DenominationsController {
+
+    private final DenominationsService service;
+
+    public DenominationsController(DenominationsService service) {
+        this.service = service;
+    }
 
     @GetMapping("calculateForEuro")
     public ResponseEntity<DenominationResultDto> calculateForEuro(
-            @RequestParam(value = "value") double value,
-            @RequestParam(value = "valueNew") Optional<Double> valueNew
+            @RequestParam(value = "valueForDenomination") double valueForDenomination,
+            @RequestParam(value = "valueForDifference") Optional<Double> valueForDifference
     ) {
-        if (valueNew.isEmpty() || valueNew.get() <= 0) {
-            var result = new DenominationResult(value, Calculator::forEuro);
-            var dto = DenominationResultDto.fromDenominationResult(result);
-
-            return ResponseEntity.ok().body(dto);
-        }
-        
-        var result = new DenominationResult(value, valueNew.get(), Calculator::forEuro);
+        var result = service.calculateDenominationsFor(valueForDenomination, valueForDifference);
         var dto = DenominationResultDto.fromDenominationResult(result);
 
         return ResponseEntity.ok().body(dto);
