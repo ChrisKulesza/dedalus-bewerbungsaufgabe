@@ -29,6 +29,13 @@ export class DenominationResultTableComponent implements OnInit {
   }
 
   getSecondColumnHeaderName(calculationType: CalculationType | undefined) {
-    return calculationType === CalculationType.DENOMINATION ? 'Anzahl' : 'Differenz';
+    switch (calculationType) {
+      case CalculationType.DENOMINATION:
+        return 'Anzahl';
+      case CalculationType.DIFFERENCE:
+        return 'Differenz';
+      default:
+        return 'Ungültiger Typ';
+    }
   }
 }
