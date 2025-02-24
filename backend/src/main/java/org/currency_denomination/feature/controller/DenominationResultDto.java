@@ -10,7 +10,7 @@ public class DenominationResultDto {
     private final double valueForDenomination;
     private final Optional<Double> valueForDifference;
     private final List<Value> denominations;
-    private final String calculationType;
+    private final CalculationType calculationType;
     private final String currency;
 
     private DenominationResultDto(
@@ -24,7 +24,7 @@ public class DenominationResultDto {
         this.valueForDenomination = valueForDenomination;
         this.valueForDifference = Optional.of(valueForDifference);
         this.denominations = calculateDenominationDifferenceBetween(denominations, denominationsDifference);
-        this.calculationType = calculationType.getValue();
+        this.calculationType = calculationType;
         this.currency = currency.getSymbol();
     }
 
@@ -37,7 +37,7 @@ public class DenominationResultDto {
         this.valueForDenomination = valueForDenomination;
         this.valueForDifference = Optional.empty();
         this.denominations = toReversedOrderList(denominationsForValue);
-        this.calculationType = calculationType.getValue();
+        this.calculationType = calculationType;
         this.currency = currency.getSymbol();
     }
 
@@ -108,7 +108,7 @@ public class DenominationResultDto {
         return Collections.unmodifiableList(denominations);
     }
 
-    public String getCalculationType() {
+    public CalculationType getCalculationType() {
         return calculationType;
     }
 
