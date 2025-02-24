@@ -8,7 +8,7 @@ import java.util.*;
 
 public class DenominationResultDto {
     private final double valueForDenomination;
-    private final double valueForDifference;
+    private final Optional<Double> valueForDifference;
     private final List<Value> denominations;
     private final String calculationType;
     private final String currency;
@@ -22,7 +22,7 @@ public class DenominationResultDto {
             Currency currency
     ) {
         this.valueForDenomination = valueForDenomination;
-        this.valueForDifference = valueForDifference;
+        this.valueForDifference = Optional.of(valueForDifference);
         this.denominations = calculateDenominationDifferenceBetween(denominations, denominationsDifference);
         this.calculationType = calculationType.getValue();
         this.currency = currency.getSymbol();
@@ -35,7 +35,7 @@ public class DenominationResultDto {
             Currency currency
     ) {
         this.valueForDenomination = valueForDenomination;
-        this.valueForDifference = 0;
+        this.valueForDifference = Optional.empty();
         this.denominations = toReversedOrderList(denominationsForValue);
         this.calculationType = calculationType.getValue();
         this.currency = currency.getSymbol();
@@ -48,7 +48,7 @@ public class DenominationResultDto {
     }
 
     public static DenominationResultDto fromDenominationResult(DenominationResult result) {
-        if (result.getValueForDifference() == 0 && result.getDenominationsDifference().isEmpty()) {
+        if (result.getValueForDifference().isEmpty()) {
             return new DenominationResultDto(
                     result.getValueForDenomination(),
                     result.getDenominations(),
@@ -60,7 +60,7 @@ public class DenominationResultDto {
         return new DenominationResultDto(
                 result.getValueForDenomination(),
                 result.getDenominations(),
-                result.getValueForDifference(),
+                result.getValueForDifference().get(),
                 result.getDenominationsDifference(),
                 result.getCalculationType(),
                 result.getCurrency()
@@ -97,7 +97,7 @@ public class DenominationResultDto {
         return valueForDenomination;
     }
 
-    public double getValueForDifference() {
+    public Optional<Double> getValueForDifference() {
         return valueForDifference;
     }
 
@@ -107,7 +107,7 @@ public class DenominationResultDto {
     public List<Value> getDenominations() {
         return Collections.unmodifiableList(denominations);
     }
-    
+
     public String getCalculationType() {
         return calculationType;
     }

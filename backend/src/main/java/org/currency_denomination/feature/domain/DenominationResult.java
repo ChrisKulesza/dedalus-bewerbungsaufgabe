@@ -1,12 +1,13 @@
 package org.currency_denomination.feature.domain;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
 
 public class DenominationResult {
     double valueForDenomination;
-    double valueForDifference;
+    Optional<Double> valueForDifference;
     Map<Double, Integer> denominations;
     Map<Double, Integer> denominationsForDifference;
     private final CalculationType calculationType;
@@ -18,7 +19,7 @@ public class DenominationResult {
             Currency currency
     ) {
         this.valueForDenomination = valueForDenomination;
-        this.valueForDifference = 0;
+        this.valueForDifference = Optional.empty();
         this.denominations = calculator.apply(valueForDenomination);
         this.denominationsForDifference = new TreeMap<>();
         calculationType = CalculationType.DENOMINATION;
@@ -32,7 +33,7 @@ public class DenominationResult {
             Currency currency
     ) {
         this.valueForDenomination = valueForDenomination;
-        this.valueForDifference = valueForDifference;
+        this.valueForDifference = Optional.of(valueForDifference);
         this.denominations = calculator.apply(valueForDenomination);
         this.denominationsForDifference = calculator.apply(valueForDifference);
         calculationType = CalculationType.DIFFERENCE;
@@ -43,7 +44,7 @@ public class DenominationResult {
         return valueForDenomination;
     }
 
-    public double getValueForDifference() {
+    public Optional<Double> getValueForDifference() {
         return valueForDifference;
     }
 
