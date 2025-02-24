@@ -4,6 +4,7 @@ import { Calculator } from './Calculator';
 import { CurrencySymbol } from '../CurrencySymbol';
 import { DenominationFormType } from '../calculation-form/DenominationFormType';
 import { Observable, of } from 'rxjs';
+import { isNotNullAndNotUndefined } from '../../../typeGuards';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +17,14 @@ export class ClientCalculationServiceService {
       return of(null);
     }
 
-    const result =
-      !valueForDifference || valueForDifference <= 0
-        ? DenominationResult.fromDenominationResult(valueForDenomination, Calculator.forEuro, CurrencySymbol.EURO)
-        : DenominationResult.fromDenominationResultForDifference(
-            valueForDenomination,
-            valueForDifference,
-            Calculator.forEuro,
-            CurrencySymbol.EURO
-          );
+    const result = !isNotNullAndNotUndefined(valueForDifference)
+      ? DenominationResult.fromDenominationResult(valueForDenomination, Calculator.forEuro, CurrencySymbol.EURO)
+      : DenominationResult.fromDenominationResultForDifference(
+          valueForDenomination,
+          valueForDifference,
+          Calculator.forEuro,
+          CurrencySymbol.EURO
+        );
 
     return of(result);
   }
