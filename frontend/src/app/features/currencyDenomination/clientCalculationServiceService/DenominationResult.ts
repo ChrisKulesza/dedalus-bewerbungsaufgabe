@@ -25,7 +25,7 @@ export class DenominationResult {
     this.currency = currency;
   }
 
-  static fromSomethingForDenomination(
+  static fromDenominationResult(
     valueForDenomination: number,
     calculationFunction: (value: number) => Map<number, number>,
     currencySymbol: CurrencySymbol
@@ -40,7 +40,7 @@ export class DenominationResult {
     );
   }
 
-  static fromSomethingWithDifference(
+  static fromDenominationResultForDifference(
     valueForDenomination: number,
     valueForDifference: number,
     calculationFunction: (value: number) => Map<number, number>,

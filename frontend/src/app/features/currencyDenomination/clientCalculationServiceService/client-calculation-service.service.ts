@@ -18,8 +18,8 @@ export class ClientCalculationServiceService {
 
     const result =
       !valueForDifference || valueForDifference <= 0
-        ? DenominationResult.fromSomethingForDenomination(valueForDenomination, Calculator.forEuro, CurrencySymbol.EURO)
-        : DenominationResult.fromSomethingWithDifference(
+        ? DenominationResult.fromDenominationResult(valueForDenomination, Calculator.forEuro, CurrencySymbol.EURO)
+        : DenominationResult.fromDenominationResultForDifference(
             valueForDenomination,
             valueForDifference,
             Calculator.forEuro,
