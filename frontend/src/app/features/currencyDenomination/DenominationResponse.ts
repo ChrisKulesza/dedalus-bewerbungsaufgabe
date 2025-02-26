@@ -4,11 +4,11 @@ import { DenominationResult } from './clientCalculationServiceService/Denominati
 import { isNotNullAndNotUndefined } from '../../typeGuards';
 
 export class DenominationResponse {
-  valueForDenomination: number;
-  valueForDifference: number | null;
-  denominations: CurrencyValue[];
-  calculationType: CalculationType;
-  currency: string;
+  readonly valueForDenomination: number;
+  readonly valueForDifference: number | null;
+  readonly denominations: CurrencyValue[];
+  readonly calculationType: CalculationType;
+  readonly currency: string;
 
   constructor(
     valueForDenomination: number,

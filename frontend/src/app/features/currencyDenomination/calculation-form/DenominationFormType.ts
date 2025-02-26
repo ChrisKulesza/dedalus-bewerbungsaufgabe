@@ -1,9 +1,9 @@
 import { GenericFormControlType } from './GenericFormControlType';
 
 export class DenominationFormType {
-  valueForDenomination: number | null;
-  valueForDifference: number | null;
-  caclulateOnServer: boolean | null;
+  readonly valueForDenomination: number | null;
+  readonly valueForDifference: number | null;
+  readonly caclulateOnServer: boolean | null;
 
   constructor(
     valueForDenomination: number | null,
@@ -20,5 +20,4 @@ export class DenominationFormType {
   }
 }
 
-export type DenominationFormControlType =
-  GenericFormControlType<DenominationFormType>;
+export type DenominationFormControlType = GenericFormControlType<DenominationFormType>;

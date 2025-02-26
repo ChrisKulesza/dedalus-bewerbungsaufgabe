@@ -1,6 +1,6 @@
 export class CurrencyValue {
-  value: number;
-  count: string;
+  readonly value: number;
+  readonly count: string;
 
   constructor(value: number, count: string) {
     this.value = value;
