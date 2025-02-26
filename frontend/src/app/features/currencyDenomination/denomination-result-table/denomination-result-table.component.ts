@@ -1,31 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CalculateDenominationService } from '../service/calculate-denomination.service';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { CalculationType } from '../CalculationType';
 import { CardModule } from 'primeng/card';
 import { DenominationResponse } from '../DenominationResponse';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-denomination-result-table',
-  imports: [NgIf, TableModule, CardModule],
+  imports: [NgIf, TableModule, CardModule, AsyncPipe],
   templateUrl: './denomination-result-table.component.html',
   styleUrl: './denomination-result-table.component.css',
 })
-export class DenominationResultTableComponent implements OnInit {
+export class DenominationResultTableComponent {
   firstColumnHeaderName = 'Schein/Münze';
-  response: DenominationResponse | null = null;
-  error: string | undefined;
+  response$: Observable<DenominationResponse | null>;
+  error$: Observable<string | undefined>;
 
-  constructor(private readonly _calculateDenominationService: CalculateDenominationService) {}
-
-  ngOnInit() {
-    this._calculateDenominationService.getDenominationResult().subscribe((value) => {
-      this.response = value;
-    });
-    this._calculateDenominationService.getError().subscribe((value) => {
-      this.error = value;
-    });
+  constructor(private readonly _calculateDenominationService: CalculateDenominationService) {
+    this.response$ = this._calculateDenominationService.getDenominationResult();
+    this.error$ = this._calculateDenominationService.getError();
   }
 
   getSecondColumnHeaderName(calculationType: CalculationType | undefined) {

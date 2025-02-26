@@ -1,8 +1,8 @@
-import { effect, inject, Injectable, signal, untracked } from '@angular/core';
+import { effect, EffectRef, inject, Injectable, signal, untracked } from '@angular/core';
 import { DenominationResponse } from '../DenominationResponse';
 import { DenominationFormType } from '../calculation-form/DenominationFormType';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
 import { ClientCalculationService } from '../clientCalculationService/client-calculation.service';
 import { isNotNullAndNotUndefined } from '../../../typeGuards';
 
@@ -20,9 +20,10 @@ import { isNotNullAndNotUndefined } from '../../../typeGuards';
 })
 export class CalculateDenominationService {
   private formData = signal<DenominationFormType>(DenominationFormType.initialState());
-  private response = new Subject<DenominationResponse | null>();
   private isLoading = signal<boolean>(false);
-  private error = new Subject<string | undefined>();
+
+  private response = new BehaviorSubject<DenominationResponse | null>(null);
+  private error = new BehaviorSubject<string | undefined>(undefined);
 
   private readonly _httpClient = inject(HttpClient);
   private readonly _clientCalculationService = inject(ClientCalculationService);
@@ -35,7 +36,7 @@ export class CalculateDenominationService {
    * If the formData indicates server calculation, it calls the server API.
    * Otherwise, it uses the client calculation service.
    */
-  private formDataChangedEffect = effect(() => {
+  private formDataChangedEffect: EffectRef = effect(() => {
     this.formData();
 
     untracked(() => {
@@ -90,11 +91,11 @@ export class CalculateDenominationService {
     this.formData.set(formData);
   }
 
-  getDenominationResult() {
+  getDenominationResult(): Observable<DenominationResponse | null> {
     return this.response.asObservable();
   }
 
-  getError() {
+  getError(): Observable<string | undefined> {
     return this.error.asObservable();
   }
 
