@@ -17,13 +17,13 @@ export class DenominationResultTableComponent implements OnInit {
   response: DenominationResponse | null = null;
   error: string | undefined;
 
-  constructor(private readonly calculateDenominationService: CalculateDenominationService) {}
+  constructor(private readonly _calculateDenominationService: CalculateDenominationService) {}
 
   ngOnInit() {
-    this.calculateDenominationService.getDenominationResult().subscribe((value) => {
+    this._calculateDenominationService.getDenominationResult().subscribe((value) => {
       this.response = value;
     });
-    this.calculateDenominationService.getError().subscribe((value) => {
+    this._calculateDenominationService.getError().subscribe((value) => {
       this.error = value;
     });
   }

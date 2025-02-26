@@ -16,10 +16,10 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrl: './calculation-form.component.css',
 })
 export class CalculationFormComponent {
-  constructor(private readonly calculationService: CalculateDenominationService) {}
+  constructor(private readonly _calculationService: CalculateDenominationService) {}
 
-  formBuilder = inject(FormBuilder);
-  form = this.formBuilder.group<DenominationFormControlType>({
+  private _formBuilder = inject(FormBuilder);
+  form = this._formBuilder.group<DenominationFormControlType>({
     valueForDenomination: new FormControl<number | null>(null, {
       validators: [Validators.required],
     }),
@@ -32,7 +32,7 @@ export class CalculationFormComponent {
   };
 
   handleClickOnCalculate = (): void => {
-    this.calculationService.setFormData(this.form.getRawValue());
+    this._calculationService.setFormData(this.form.getRawValue());
   };
 
   handleOnFocus($event: Event) {

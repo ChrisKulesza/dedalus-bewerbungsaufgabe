@@ -24,8 +24,8 @@ export class CalculateDenominationService {
   private isLoading = signal<boolean>(false);
   private error = new Subject<string | undefined>();
 
-  private readonly httpClient = inject(HttpClient);
-  private readonly clientCalculationService = inject(ClientCalculationService);
+  private readonly _httpClient = inject(HttpClient);
+  private readonly _clientCalculationService = inject(ClientCalculationService);
 
   // Prevent a request from being sent during the initial effect run
   private skipCallback = true;
@@ -65,7 +65,7 @@ export class CalculateDenominationService {
       // Client calculation
       if (!this.skipCallback && !this.formData().calculateOnServer) {
         this.isLoading.set(true);
-        this.clientCalculationService
+        this._clientCalculationService
           .calculateDenominationsFor(this.formData())
           .pipe(
             tap({
@@ -109,7 +109,7 @@ export class CalculateDenominationService {
       params = params.set('valueForDifference', formData.valueForDifference);
     }
 
-    return this.httpClient.get<DenominationResponse>('http://localhost:8080/api/denomination/calculateForEuro', {
+    return this._httpClient.get<DenominationResponse>('http://localhost:8080/api/denomination/calculateForEuro', {
       params: params,
     });
   }
