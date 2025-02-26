@@ -49,6 +49,7 @@ export class CalculateDenominationService {
             tap({
               next: (response) => {
                 this.response.next(response);
+                this.error.next(undefined);
               },
               error: (err) => {
                 this.error.next(err.message);
@@ -72,6 +73,7 @@ export class CalculateDenominationService {
             tap({
               next: (response) => {
                 this.response.next(DenominationResponse.fromDenominationResult(response));
+                this.error.next(undefined);
               },
             }),
             catchError((err) => {
