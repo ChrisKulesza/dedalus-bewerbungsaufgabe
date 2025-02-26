@@ -1,5 +1,5 @@
-<div *ngIf="!(error$ | async)">
-  <div *ngIf="(response$ | async) as response; else noData">
+@if (!(error$ | async)) {
+  @if ((response$ | async); as response) {
     <p-table [value]="(response.denominations)" [tableStyle]="{ 'min-width': '20rem' }">
       <!-- HEADER -->
       <ng-template #header>
@@ -17,8 +17,10 @@
         </tr>
       </ng-template>
     </p-table>
-  </div>
-</div>
+  } @else {
+    <ng-container *ngTemplateOutlet="noData"></ng-container>
+  }
+}
 
 <!-- No data template-->
 <ng-template #noData>
@@ -46,9 +48,10 @@
 </ng-template>
 
 <!-- Error -->
-<div *ngIf="(error$ | async) as error">
+@if ((error$ | async); as error) {
   <p-card class="card-content-text" [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#860404' }">
     <ng-template #title>Es ist ein Fehler aufgetreten</ng-template>
     {{ error }}
   </p-card>
-</div>
+}
+

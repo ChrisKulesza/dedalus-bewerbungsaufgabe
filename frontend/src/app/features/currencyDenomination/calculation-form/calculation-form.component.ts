@@ -4,14 +4,14 @@ import { DenominationFormControlType, DenominationFormType } from './Denominatio
 import { CalculateDenominationService } from '../service/calculate-denomination.service';
 import { ToggleButton } from 'primeng/togglebutton';
 import { Message } from 'primeng/message';
-import { NgIf } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-calculation-form',
-  imports: [ReactiveFormsModule, ToggleButton, Message, NgIf, ButtonModule, InputNumber, InputTextModule],
+  imports: [ReactiveFormsModule, ToggleButton, Message, ButtonModule, InputNumber, InputTextModule, NgTemplateOutlet],
   templateUrl: './calculation-form.component.html',
   styleUrl: './calculation-form.component.css',
 })
@@ -35,12 +35,7 @@ export class CalculationFormComponent {
     this._calculationService.setFormData(this.form.getRawValue());
   };
 
-  handleOnFocus($event: Event) {
+  handleOnFocus($event: Event): void {
     ($event.target as HTMLInputElement).select();
-  }
-
-  clearFormControlForKey<Key extends keyof DenominationFormType>(key: Key) {
-    console.log('key', key);
-    this.form.controls[key].setValue(null as any);
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CalculateDenominationService } from '../service/calculate-denomination.service';
-import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { CalculationType } from '../CalculationType';
 import { CardModule } from 'primeng/card';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-denomination-result-table',
-  imports: [NgIf, TableModule, CardModule, AsyncPipe, DecimalPipe],
+  imports: [TableModule, CardModule, AsyncPipe, DecimalPipe, NgTemplateOutlet],
   templateUrl: './denomination-result-table.component.html',
   styleUrl: './denomination-result-table.component.css',
 })
