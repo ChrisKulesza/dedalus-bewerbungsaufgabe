@@ -1,28 +1,28 @@
 <div>
   <form [formGroup]="form">
     <div class="toggle-button">
-      <p-togglebutton formControlName="calculateOnServer" onLabel="Calculate on server" offLabel="Calculate in Client" size="large" styleClass="min-w-40"></p-togglebutton>
+      <p-togglebutton formControlName="calculateOnServer" onLabel="Serverberechnung" offLabel="Klientberechnung" size="large" styleClass="min-w-40"></p-togglebutton>
     </div>
 
     <div class="form-label-input-element">
       <label class="block font-bold required" for="valueForDenomination">
-        Value to calculate the denomination *
+        Wert zur Berechnung der Stückelung *
       </label>
       <p-inputnumber (onFocus)="handleOnFocus($event)" class="input-element" size="large" required formControlName="valueForDenomination" mode="currency" placeholder="0,00€" inputId="valueForDenomination" currency="EUR" locale="de-DE"></p-inputnumber>
       <div class="error-message" *ngIf="isFormControlInValid('valueForDenomination')">
-        <p-message severity="error" variant="simple" size="small">Please enter a value. Value is mandatory.</p-message>
+        <p-message severity="error" variant="simple" size="small">Pflichtangabe. Bitte geben Sie einen Wert ein.</p-message>
       </div>
     </div>
 
     <div class="form-label-input-element">
       <label class="block font-bold" for="valueForDifference">
-        Value for calculating the difference to the first value
+        Wert zwei zur Berechnung der Stückelungsdifferenz
       </label>
       <p-inputnumber (onFocus)="handleOnFocus($event)" class="input-element" size="large" formControlName="valueForDifference" mode="currency" placeholder="0,00€" inputId="valueForDifference" currency="EUR" locale="de-DE"></p-inputnumber>
     </div>
 
     <div class="toggle-and-calculate-button">
-      <p-button label="Calculate denomination" variant="outlined" (onClick)="handleClickOnCalculate()" [disabled]="this.form.invalid" />
+      <p-button label="Formular absenden" variant="outlined" severity="contrast" (onClick)="handleClickOnCalculate()" [disabled]="this.form.invalid" />
     </div>
   </form>
 </div>

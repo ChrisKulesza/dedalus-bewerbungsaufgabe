@@ -52,11 +52,11 @@ export class CalculateDenominationService {
                 this.error.next(undefined);
               },
               error: (err) => {
-                this.error.next(err.message);
+                this.error.next(err.name);
               },
             }),
             catchError((err) => {
-              this.error.next(err.message);
+              this.error.next(err.name);
               return of(null);
             }),
             finalize(() => this.isLoading.set(false))
@@ -77,7 +77,7 @@ export class CalculateDenominationService {
               },
             }),
             catchError((err) => {
-              this.error.next(err.message);
+              this.error.next(err.name);
               return of(null);
             }),
             finalize(() => this.isLoading.set(false))

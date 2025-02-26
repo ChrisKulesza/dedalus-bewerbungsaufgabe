@@ -12,7 +12,7 @@
       <!-- BODY -->
       <ng-template #body let-denomination>
         <tr>
-          <td>{{ denomination.value }}</td>
+          <td>{{ denomination.value | number : '2.2' }} {{ response.currency }}</td>
           <td>{{ denomination.count }}</td>
         </tr>
       </ng-template>
@@ -22,13 +22,26 @@
 
 <!-- No data template-->
 <ng-template #noData>
-  <p-card class="card-content-text" [style]="{ width: '30rem', overflow: 'hidden', backgroundColor: '#034087' }">
-    <ng-template #title>Keine Berechnungsdaten vorhanden</ng-template>
+  <p-card class="card-content-text" [style]="{ width: '33rem', overflow: 'hidden', backgroundColor: '#034087' }">
+    <ng-template #title>Anleitung</ng-template>
     <p>
-      Bitte ergänzen Sie die erforderlichen Angaben
-      im Formular und senden Sie es ab. Über den Toggle-Button können Sie wählen, ob die
-      Berechnung im Browser oder auf dem Server durchgeführt werden soll.
+      Mit diesem Formular können Sie die Stückelung oder die Stückelungsdifferenz berechnen.
+      Geben Sie dazu entweder einen einzelnen Wert oder zwei Werte ein, je nachdem, welche Berechnung
+      Sie durchführen möchten
     </p>
+
+    <span class="p-card-subtitle">Stückelungsberechnung</span>
+    <ol>
+      <li>Trage einen Betrag in das erste Formularfeld ein</li>
+      <li>Sende das Formular ab</li>
+    </ol>
+
+    <span class="p-card-subtitle">Differenzberechnung</span>
+    <ol>
+      <li>Tragen Sie einen Betrag in das erste Formularfeld ein</li>
+      <li>Tragen Sie einen Betrag in das zweite Formularfeld ein</li>
+      <li>Senden Sie das Formular ab</li>
+    </ol>
   </p-card>
 </ng-template>
 
