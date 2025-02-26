@@ -24,14 +24,14 @@ export class CalculationFormComponent {
       validators: [Validators.required],
     }),
     valueForDifference: new FormControl<number | null>(null),
-    caclulateOnServer: new FormControl<boolean | null>(true),
+    calculateOnServer: new FormControl<boolean | null>(true),
   });
 
   isFormControlInValid = <Key extends keyof DenominationFormType>(key: Key) => {
     return this.form.controls[key].hasError('required') && this.form.controls[key].touched;
   };
 
-  handleClickOnCaclulate = (): void => {
+  handleClickOnCalculate = (): void => {
     this.calculationService.setFormData(this.form.getRawValue());
   };
 

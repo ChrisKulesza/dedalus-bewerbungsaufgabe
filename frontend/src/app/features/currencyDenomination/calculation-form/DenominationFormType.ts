@@ -3,16 +3,16 @@ import { GenericFormControlType } from './GenericFormControlType';
 export class DenominationFormType {
   readonly valueForDenomination: number | null;
   readonly valueForDifference: number | null;
-  readonly caclulateOnServer: boolean | null;
+  readonly calculateOnServer: boolean | null;
 
   constructor(
     valueForDenomination: number | null,
     valueForDifference: number | null,
-    caclulateOnServer: boolean | null
+    calculateOnServer: boolean | null
   ) {
     this.valueForDenomination = valueForDenomination;
     this.valueForDifference = valueForDifference;
-    this.caclulateOnServer = caclulateOnServer;
+    this.calculateOnServer = calculateOnServer;
   }
 
   static initialState(): DenominationFormType {

@@ -9,7 +9,7 @@ import { isNotNullAndNotUndefined } from '../../../typeGuards';
 @Injectable({
   providedIn: 'root',
 })
-export class ClientCalculationServiceService {
+export class ClientCalculationService {
   calculateDenominationsFor(formData: DenominationFormType): Observable<DenominationResult | null> {
     const { valueForDenomination, valueForDifference } = formData;
 

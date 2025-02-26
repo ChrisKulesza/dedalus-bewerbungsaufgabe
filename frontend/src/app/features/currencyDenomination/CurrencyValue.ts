@@ -23,7 +23,7 @@ export class CurrencyValue {
       const valueForDifference = denominationsDifference.get(k);
 
       if (valueForDifference !== undefined && (valueForDifference !== v || (valueForDifference > 0 && v > 0))) {
-        const difference = CurrencyValue.caclulateDifferenceValue(valueForDifference - v);
+        const difference = CurrencyValue.calculateDifferenceValue(valueForDifference - v);
         currencyValues.push(new CurrencyValue(k, difference));
       }
     });
@@ -31,7 +31,7 @@ export class CurrencyValue {
     return currencyValues;
   }
 
-  private static caclulateDifferenceValue(value: number): string {
+  private static calculateDifferenceValue(value: number): string {
     return value <= 0 ? `${value}` : `+${value}`;
   }
 }

@@ -1,7 +1,7 @@
 import { CurrencyValue } from './CurrencyValue';
 import { CalculationType } from './CalculationType';
-import { DenominationResult } from './clientCalculationServiceService/DenominationResult';
 import { isNotNullAndNotUndefined } from '../../typeGuards';
+import { DenominationResult } from './clientCalculationService/DenominationResult';
 
 export class DenominationResponse {
   readonly valueForDenomination: number;

@@ -3,7 +3,7 @@ import { DenominationResponse } from '../DenominationResponse';
 import { DenominationFormType } from '../calculation-form/DenominationFormType';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
-import { ClientCalculationServiceService } from '../clientCalculationServiceService/client-calculation-service.service';
+import { ClientCalculationService } from '../clientCalculationService/client-calculation.service';
 import { isNotNullAndNotUndefined } from '../../../typeGuards';
 
 /**
@@ -25,7 +25,7 @@ export class CalculateDenominationService {
   private error = new Subject<string | undefined>();
 
   private readonly httpClient = inject(HttpClient);
-  private readonly clientCalculationService = inject(ClientCalculationServiceService);
+  private readonly clientCalculationService = inject(ClientCalculationService);
 
   // Prevent a request from being sent during the initial effect run
   private skipCallback = true;
@@ -39,7 +39,7 @@ export class CalculateDenominationService {
     this.formData();
 
     untracked(() => {
-      if (!this.skipCallback && this.formData().caclulateOnServer) {
+      if (!this.skipCallback && this.formData().calculateOnServer) {
         this.isLoading.set(true);
 
         // Server calculation
@@ -63,7 +63,7 @@ export class CalculateDenominationService {
       }
 
       // Client calculation
-      if (!this.skipCallback && !this.formData().caclulateOnServer) {
+      if (!this.skipCallback && !this.formData().calculateOnServer) {
         this.isLoading.set(true);
         this.clientCalculationService
           .calculateDenominationsFor(this.formData())

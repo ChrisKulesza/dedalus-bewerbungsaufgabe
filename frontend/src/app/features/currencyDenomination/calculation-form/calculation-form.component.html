@@ -1,7 +1,7 @@
 <div>
   <form [formGroup]="form">
     <div class="toggle-button">
-      <p-togglebutton formControlName="caclulateOnServer" onLabel="Calculate on server" offLabel="Calculate in Client" size="large" styleClass="min-w-40"></p-togglebutton>
+      <p-togglebutton formControlName="calculateOnServer" onLabel="Calculate on server" offLabel="Calculate in Client" size="large" styleClass="min-w-40"></p-togglebutton>
     </div>
 
     <div class="form-label-input-element">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="toggle-and-calculate-button">
-      <p-button label="Calculate denomination" variant="outlined" (onClick)="handleClickOnCaclulate()" [disabled]="this.form.invalid" />
+      <p-button label="Calculate denomination" variant="outlined" (onClick)="handleClickOnCalculate()" [disabled]="this.form.invalid" />
     </div>
   </form>
 </div>
