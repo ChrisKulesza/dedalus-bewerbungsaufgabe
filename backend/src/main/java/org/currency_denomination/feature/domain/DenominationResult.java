@@ -6,10 +6,10 @@ import java.util.TreeMap;
 import java.util.function.Function;
 
 public class DenominationResult {
-    double valueForDenomination;
-    Optional<Double> valueForDifference;
-    Map<Double, Integer> denominations;
-    Map<Double, Integer> denominationsForDifference;
+    private double valueForDenomination;
+    private Optional<Double> valueForDifference;
+    private Map<Double, Integer> denominations;
+    private Map<Double, Integer> denominationsForDifference;
     private final CalculationType calculationType;
     private final Currency currency;
 
