@@ -1,6 +1,6 @@
 @if (!(error$ | async)) {
   @if ((response$ | async); as response) {
-    <p-table [value]="(response.denominations)" [tableStyle]="{ 'min-width': '20rem' }">
+    <p-table [value]="(response.denominations)" [tableStyle]="{ 'min-width': '20rem' }" [rowTrackBy]="rowTrackBy">
       <!-- HEADER -->
       <ng-template #header>
         <tr>

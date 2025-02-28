@@ -6,6 +6,7 @@ import { CalculationType } from '../CalculationType';
 import { CardModule } from 'primeng/card';
 import { DenominationResponse } from '../DenominationResponse';
 import { Observable } from 'rxjs';
+import { CurrencyValue } from '../CurrencyValue';
 
 @Component({
   selector: 'app-denomination-result-table',
@@ -32,5 +33,9 @@ export class DenominationResultTableComponent {
       default:
         return 'Ungültiger Typ';
     }
+  }
+
+  rowTrackBy(index: number, row: CurrencyValue): string {
+    return `${row.value}`;
   }
 }
