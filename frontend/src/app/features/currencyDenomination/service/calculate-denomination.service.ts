@@ -1,8 +1,8 @@
-import { effect, EffectRef, inject, Injectable, signal, untracked } from '@angular/core';
+import { effect, EffectRef, inject, Injectable, OnDestroy, signal, untracked } from '@angular/core';
 import { DenominationResponse } from '../DenominationResponse';
 import { DenominationFormType } from '../calculation-form/DenominationFormType';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, Subject, takeUntil, tap } from 'rxjs';
 import { ClientCalculationService } from '../clientCalculationService/client-calculation.service';
 import { isNotNullAndNotUndefined } from '../../../typeGuards';
 
@@ -18,7 +18,7 @@ import { isNotNullAndNotUndefined } from '../../../typeGuards';
 @Injectable({
   providedIn: 'root',
 })
-export class CalculateDenominationService {
+export class CalculateDenominationService implements OnDestroy {
   private formData = signal<DenominationFormType>(DenominationFormType.initialState());
   private isLoading = signal<boolean>(false);
 
@@ -27,6 +27,8 @@ export class CalculateDenominationService {
 
   private readonly _httpClient = inject(HttpClient);
   private readonly _clientCalculationService = inject(ClientCalculationService);
+
+  private destroy$ = new Subject<void>();
 
   // Prevent a request from being sent during the initial effect run
   private skipCallback = true;
@@ -59,7 +61,8 @@ export class CalculateDenominationService {
               this.error.next(err.name);
               return of(null);
             }),
-            finalize(() => this.isLoading.set(false))
+            finalize(() => this.isLoading.set(false)),
+            takeUntil(this.destroy$)
           )
           .subscribe();
       }
@@ -80,7 +83,8 @@ export class CalculateDenominationService {
               this.error.next(err.name);
               return of(null);
             }),
-            finalize(() => this.isLoading.set(false))
+            finalize(() => this.isLoading.set(false)),
+            takeUntil(this.destroy$)
           )
           .subscribe();
       }
@@ -115,5 +119,10 @@ export class CalculateDenominationService {
     return this._httpClient.get<DenominationResponse>('http://localhost:8080/api/denomination/calculateForEuro', {
       params: params,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
