@@ -31,7 +31,10 @@ public class DenominationResultDtoTest {
                 "Result map contains the difference calculation between old and new Euro value",
                 () -> Assertions.assertEquals(expectedDenominationsSize, dto.getDenominations().size()),
 
-                () -> Assertions.assertSame(CalculationType.DIFFERENCE.getValue(), dto.getCalculationType())
+                () -> Assertions.assertEquals(
+                        CalculationType.DIFFERENCE.getValue(),
+                        dto.getCalculationType().getValue()
+                )
         );
     }
 }
