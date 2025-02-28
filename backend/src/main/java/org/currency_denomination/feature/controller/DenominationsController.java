@@ -22,7 +22,7 @@ public class DenominationsController {
     @GetMapping("calculateForEuro")
     public ResponseEntity<DenominationResultDto> calculateForEuro(
             @RequestParam(value = "valueForDenomination") double valueForDenomination,
-            @RequestParam(value = "valueForDifference") Optional<Double> valueForDifference
+            @RequestParam(value = "valueForDifference", required = false) Optional<Double> valueForDifference
     ) {
         var result = service.calculateDenominationsFor(valueForDenomination, valueForDifference);
         var dto = DenominationResultDto.fromDenominationResult(result);
