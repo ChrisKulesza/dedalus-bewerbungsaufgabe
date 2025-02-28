@@ -3,6 +3,7 @@ package org.currency_denomination.feature.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.test.web.client.ExpectedCount;
 
 public class DenominationResultTest {
 
@@ -271,6 +272,62 @@ public class DenominationResultTest {
                 () -> Assertions.assertEquals(
                         expectedThirdCount,
                         (int) result.getDenominations().get(thirdPart)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1000000.23, 200, 5000, .2, 1, .02, 1, .01, 1",
+    })
+    public void should_return_denominationResult_with_four_denominations_for_euroCent_currency(
+            double valueForDenomination,
+            double firstPart,
+            int expectedFirstCount,
+            double secondPart,
+            int expectedSecondCount,
+            double thirdPart,
+            int expectedThirdCount,
+            double fourthPart,
+            int expectedFourthCount
+    ) {
+        var result = new DenominationResult(valueForDenomination, Calculator::forEuro, Currency.EURO);
+
+        Assertions.assertAll(
+                "Result map contains all expected denomination keys and values",
+                () -> Assertions.assertEquals(
+                        4,
+                        result.getDenominations().entrySet().stream().filter(e -> e.getValue() > 0).count()
+                ),
+
+                () -> Assertions.assertSame(CalculationType.DENOMINATION, result.getCalculationType()),
+
+                // First denomination part
+                () -> Assertions.assertTrue(result.getDenominations().containsKey(firstPart)),
+                () -> Assertions.assertEquals(
+                        expectedFirstCount,
+                        (int) result.getDenominations().get(firstPart)
+                ),
+
+                // Second denomination part
+                () -> Assertions.assertTrue(result.getDenominations().containsKey(secondPart)),
+                () -> Assertions.assertEquals(
+                        expectedSecondCount,
+                        (int) result.getDenominations().get(secondPart)
+                ),
+
+                // Third denomination part
+                () -> Assertions.assertTrue(result.getDenominations().containsKey(thirdPart)),
+                () -> Assertions.assertEquals(
+                        expectedThirdCount,
+                        (int) result.getDenominations().get(thirdPart)
+                ),
+
+                // Fourth denomination part
+                () -> Assertions.assertTrue(result.getDenominations().containsKey(fourthPart)),
+                () -> Assertions.assertEquals(
+                        expectedFourthCount,
+                        (int) result.getDenominations().get(fourthPart)
                 )
         );
     }

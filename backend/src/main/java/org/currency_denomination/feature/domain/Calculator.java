@@ -1,6 +1,7 @@
 package org.currency_denomination.feature.domain;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,9 +16,9 @@ public class Calculator {
      */
     public static Map<Double, Integer> forEuro(double value) {
         var currentValueInCent = euroToCent(value);
-        
+
         var results = new TreeMap<Double, Integer>(Collections.reverseOrder());
-        
+
         for (var currencyValue : EuroDenominationValue.values()) {
             var valueToCheckAgainst = euroToCent(currencyValue.getValue());
 
@@ -43,6 +44,6 @@ public class Calculator {
     private static int euroToCent(double value) {
         var centPerEuro = "100";
         var factor = new BigDecimal(centPerEuro);
-        return Math.round(factor.multiply(new BigDecimal(value)).floatValue());
+        return factor.multiply(BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP)).intValue();
     }
 }
